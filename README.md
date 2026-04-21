@@ -111,18 +111,18 @@ String cpf = service.gerarCpfValido();
 
 ## Instalação
 
-### Repositório GitHub Packages
+### Repositório
 
 Adicione no `pom.xml` do seu projeto:
 
 ```xml
-<repositories>
-    <repository>
-        <id>github</id>
-        <name>GitHub Packages</name>
-        <url>https://maven.pkg.github.com/andrelamego/cpf-validator</url>
-    </repository>
-</repositories>
+<dependencies>
+    <dependency>
+        <groupId>com.lamego</groupId>
+        <artifactId>cpf-validator</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+</dependencies>
 ```
 
 ## Como usar
