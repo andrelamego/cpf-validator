@@ -1,4 +1,4 @@
-package com.lamego.brValidator;
+package io.github.andrelamego.brValidator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

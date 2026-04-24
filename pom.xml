@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.lamego</groupId>
+    <groupId>io.github.andrelamego</groupId>
     <artifactId>br-validator</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>

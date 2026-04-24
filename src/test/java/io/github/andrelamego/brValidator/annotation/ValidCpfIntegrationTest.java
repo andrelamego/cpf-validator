@@ -1,6 +1,6 @@
-package com.lamego.brValidator.annotation;
+package io.github.andrelamego.brValidator.annotation;
 
-import com.lamego.brValidator.config.CpfValidatorAutoConfiguration;
+import io.github.andrelamego.brValidator.config.CpfValidatorAutoConfiguration;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

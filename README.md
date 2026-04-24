@@ -118,7 +118,7 @@ Adicione no `pom.xml` do seu projeto:
 ```xml
 <dependencies>
     <dependency>
-        <groupId>com.lamego</groupId>
+        <groupId>io.github.andrelamego</groupId>
         <artifactId>br-validator</artifactId>
         <version>1.0.0</version>
     </dependency>
@@ -132,7 +132,7 @@ Adicione no `pom.xml` do seu projeto:
 ```java
 package com.example.demo.dto;
 
-import com.lamego.brValidator.annotation.ValidCpf;
+import io.github.andrelamego.brValidator.annotation.ValidCpf;
 
 public class ClienteRequest {
 

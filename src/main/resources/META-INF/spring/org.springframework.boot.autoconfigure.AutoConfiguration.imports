@@ -1,1 +1,1 @@
-com.lamego.brValidator.config.CpfValidatorAutoConfiguration
+io.github.andrelamego.brValidator.config.CpfValidatorAutoConfiguration
