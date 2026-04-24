@@ -1,4 +1,4 @@
-package io.github.andrelamego.brValidator.service;
+package io.github.andrelamego.brValidator.password;
 
 import org.springframework.stereotype.Service;
 

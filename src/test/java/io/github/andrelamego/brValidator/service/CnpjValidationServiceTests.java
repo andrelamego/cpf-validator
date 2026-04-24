@@ -1,6 +1,7 @@
 package io.github.andrelamego.brValidator.service;
 
-import io.github.andrelamego.brValidator.exception.InvalidCnpjException;
+import io.github.andrelamego.brValidator.cnpj.CnpjValidationService;
+import io.github.andrelamego.brValidator.cnpj.InvalidCnpjException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

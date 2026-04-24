@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.validator;
+package io.github.andrelamego.brValidator.cnpj;
 
-import io.github.andrelamego.brValidator.annotation.ValidCnpj;
-import io.github.andrelamego.brValidator.service.CnpjValidationService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
-package io.github.andrelamego.brValidator.annotation;
+package io.github.andrelamego.brValidator.password;
 
-import io.github.andrelamego.brValidator.validator.PasswordValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

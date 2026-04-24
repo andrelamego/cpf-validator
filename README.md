@@ -54,72 +54,72 @@ Adicione no `pom.xml` do seu projeto:
 ```java
 package com.example.demo.dto;
 
-import io.github.andrelamego.brValidator.annotation.ValidCpf;
-import io.github.andrelamego.brValidator.annotation.ValidCnpj;
-import io.github.andrelamego.brValidator.annotation.ValidEmail;
-import io.github.andrelamego.brValidator.annotation.ValidPassword;
+import io.github.andrelamego.brValidator.cpf.ValidCpf;
+import io.github.andrelamego.brValidator.cnpj.ValidCnpj;
+import io.github.andrelamego.brValidator.email.ValidEmail;
+import io.github.andrelamego.brValidator.password.ValidPassword;
 
 public class DocumentoRequest {
 
-    @ValidCpf(message = "CPF inválido", formatted = true, required = true)
-    private String cpf;
+  @ValidCpf(message = "CPF inválido", formatted = true, required = true)
+  private String cpf;
 
-    @ValidCnpj(message = "CNPJ inválido", formatted = true, required = false)
-    private String cnpj;
+  @ValidCnpj(message = "CNPJ inválido", formatted = true, required = false)
+  private String cnpj;
 
-    @ValidEmail(
-            message = "E-mail inválido",
-            required = true,
-            allowPlusAlias = true,
-            disposableAllowed = false,
-            allowedDomains = {"empresa.com"},
-            blockedDomains = {"bloqueado.com"}
-    )
-    private String email;
+  @ValidEmail(
+          message = "E-mail inválido",
+          required = true,
+          allowPlusAlias = true,
+          disposableAllowed = false,
+          allowedDomains = {"empresa.com"},
+          blockedDomains = {"bloqueado.com"}
+  )
+  private String email;
 
-    @ValidPassword(
-            message = "Senha inválida",
-            minLength = 8,
-            maxLength = 32,
-            requireUppercase = true,
-            requireLowercase = true,
-            requireNumber = true,
-            requireSpecialChar = true,
-            blockWhitespace = true
-    )
-    private String senha;
+  @ValidPassword(
+          message = "Senha inválida",
+          minLength = 8,
+          maxLength = 32,
+          requireUppercase = true,
+          requireLowercase = true,
+          requireNumber = true,
+          requireSpecialChar = true,
+          blockWhitespace = true
+  )
+  private String senha;
 
-    public String getCpf() {
-        return cpf;
-    }
+  public String getCpf() {
+    return cpf;
+  }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+  public void setCpf(String cpf) {
+    this.cpf = cpf;
+  }
 
-    public String getCnpj() {
-        return cnpj;
-    }
+  public String getCnpj() {
+    return cnpj;
+  }
 
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
+  public void setCnpj(String cnpj) {
+    this.cnpj = cnpj;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getSenha() {
-        return senha;
-    }
+  public String getSenha() {
+    return senha;
+  }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+  public void setSenha(String senha) {
+    this.senha = senha;
+  }
 }
 ```
 
@@ -167,63 +167,63 @@ public class DocumentoRequest {
 ### 3) Uso direto via service
 
 ```java
-import io.github.andrelamego.brValidator.service.CpfValidationService;
-import io.github.andrelamego.brValidator.service.CnpjValidationService;
-import io.github.andrelamego.brValidator.service.EmailValidationService;
-import io.github.andrelamego.brValidator.service.PasswordValidationService;
+import io.github.andrelamego.brValidator.cpf.CpfValidationService;
+import io.github.andrelamego.brValidator.cnpj.CnpjValidationService;
+import io.github.andrelamego.brValidator.email.EmailValidationService;
+import io.github.andrelamego.brValidator.password.PasswordValidationService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DocumentoService {
 
-    private final CpfValidationService cpfValidationService;
-    private final CnpjValidationService cnpjValidationService;
-    private final EmailValidationService emailValidationService;
-    private final PasswordValidationService passwordValidationService;
+  private final CpfValidationService cpfValidationService;
+  private final CnpjValidationService cnpjValidationService;
+  private final EmailValidationService emailValidationService;
+  private final PasswordValidationService passwordValidationService;
 
-    public DocumentoService(
-            CpfValidationService cpfValidationService,
-            CnpjValidationService cnpjValidationService,
-            EmailValidationService emailValidationService,
-            PasswordValidationService passwordValidationService
-    ) {
-        this.cpfValidationService = cpfValidationService;
-        this.cnpjValidationService = cnpjValidationService;
-        this.emailValidationService = emailValidationService;
-        this.passwordValidationService = passwordValidationService;
-    }
+  public DocumentoService(
+          CpfValidationService cpfValidationService,
+          CnpjValidationService cnpjValidationService,
+          EmailValidationService emailValidationService,
+          PasswordValidationService passwordValidationService
+  ) {
+    this.cpfValidationService = cpfValidationService;
+    this.cnpjValidationService = cnpjValidationService;
+    this.emailValidationService = emailValidationService;
+    this.passwordValidationService = passwordValidationService;
+  }
 
-    public void validar() {
-        boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
-        boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
-        boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
-        boolean senhaValida = passwordValidationService.isValid("Senha@123");
+  public void validar() {
+    boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
+    boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
+    boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
+    boolean senhaValida = passwordValidationService.isValid("Senha@123");
 
-        boolean emailRestritoValido = emailValidationService.isValid(
-                "usuario+tag@empresa.com",
-                true,
-                false,
-                new String[]{"empresa.com"},
-                new String[]{"bloqueado.com"}
-        );
+    boolean emailRestritoValido = emailValidationService.isValid(
+            "usuario+tag@empresa.com",
+            true,
+            false,
+            new String[]{"empresa.com"},
+            new String[]{"bloqueado.com"}
+    );
 
-        boolean senhaRestritaValida = passwordValidationService.isValid(
-                "Senha@123",
-                8,
-                32,
-                true,
-                true,
-                true,
-                true,
-                true
-        );
+    boolean senhaRestritaValida = passwordValidationService.isValid(
+            "Senha@123",
+            8,
+            32,
+            true,
+            true,
+            true,
+            true,
+            true
+    );
 
-        String cpfFormatado = cpfValidationService.formatar("52998224725");
-        String cnpjFormatado = cnpjValidationService.formatar("04252011000110");
+    String cpfFormatado = cpfValidationService.formatar("52998224725");
+    String cnpjFormatado = cnpjValidationService.formatar("04252011000110");
 
-        String cpfGerado = cpfValidationService.gerarCpfValido();
-        String cnpjGerado = cnpjValidationService.gerarCnpjValido();
-    }
+    String cpfGerado = cpfValidationService.gerarCpfValido();
+    String cnpjGerado = cnpjValidationService.gerarCnpjValido();
+  }
 }
 ```
 
@@ -279,8 +279,8 @@ Já os métodos `formatar(...)` de CPF/CNPJ lançam exceção quando o documento
 ```java
 package com.example.demo.api;
 
-import io.github.andrelamego.brValidator.exception.InvalidCnpjException;
-import io.github.andrelamego.brValidator.exception.InvalidCpfException;
+import io.github.andrelamego.brValidator.cnpj.InvalidCnpjException;
+import io.github.andrelamego.brValidator.cpf.InvalidCpfException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -292,20 +292,20 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler({InvalidCpfException.class, InvalidCnpjException.class})
-    public ResponseEntity<Map<String, String>> handleDocumentoInvalido(RuntimeException ex) {
-        return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
-    }
+  @ExceptionHandler({InvalidCpfException.class, InvalidCnpjException.class})
+  public ResponseEntity<Map<String, String>> handleDocumentoInvalido(RuntimeException ex) {
+    return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+  }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleBeanValidation(MethodArgumentNotValidException ex) {
-        String message = ex.getBindingResult().getFieldErrors().stream()
-                .findFirst()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .orElse("Dados inválidos");
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<Map<String, String>> handleBeanValidation(MethodArgumentNotValidException ex) {
+    String message = ex.getBindingResult().getFieldErrors().stream()
+            .findFirst()
+            .map(error -> error.getField() + ": " + error.getDefaultMessage())
+            .orElse("Dados inválidos");
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", message));
-    }
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", message));
+  }
 }
 ```
 

@@ -1,4 +1,4 @@
-package io.github.andrelamego.brValidator.exception;
+package io.github.andrelamego.brValidator.cnpj;
 
 public class InvalidCnpjException extends RuntimeException {
     public InvalidCnpjException(String message) {

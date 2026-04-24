@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.validator;
+package io.github.andrelamego.brValidator.email;
 
-import io.github.andrelamego.brValidator.annotation.ValidEmail;
-import io.github.andrelamego.brValidator.service.EmailValidationService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;

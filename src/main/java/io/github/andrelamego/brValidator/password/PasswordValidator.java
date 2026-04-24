@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.validator;
+package io.github.andrelamego.brValidator.password;
 
-import io.github.andrelamego.brValidator.annotation.ValidPassword;
-import io.github.andrelamego.brValidator.service.PasswordValidationService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;

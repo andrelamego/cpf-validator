@@ -1,6 +1,6 @@
 package io.github.andrelamego.brValidator.annotation;
 
-import io.github.andrelamego.brValidator.annotation.ValidCpf;
+import io.github.andrelamego.brValidator.cpf.ValidCpf;
 
 public class PessoaDTO {
     @ValidCpf
