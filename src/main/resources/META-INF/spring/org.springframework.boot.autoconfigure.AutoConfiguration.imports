@@ -1,1 +1,2 @@
 io.github.andrelamego.brValidator.config.CpfValidatorAutoConfiguration
+io.github.andrelamego.brValidator.config.CnpjValidatorAutoConfiguration

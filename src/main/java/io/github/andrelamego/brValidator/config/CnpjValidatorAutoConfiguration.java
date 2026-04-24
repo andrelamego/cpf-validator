@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 
 @AutoConfiguration
-public class CnpjAutoConfiguration {
+public class CnpjValidatorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public CnpjValidationService cnpjValidationService() {
