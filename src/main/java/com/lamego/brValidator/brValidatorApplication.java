@@ -1,13 +1,13 @@
-package com.lamego.cpfvalidator;
+package com.lamego.brValidator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CpfValidatorApplication {
+public class brValidatorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CpfValidatorApplication.class, args);
+        SpringApplication.run(brValidatorApplication.class, args);
     }
 
 }

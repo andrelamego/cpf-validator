@@ -1,7 +1,7 @@
-package com.lamego.cpfvalidator.validator;
+package com.lamego.brValidator.validator;
 
-import com.lamego.cpfvalidator.annotation.ValidCpf;
-import com.lamego.cpfvalidator.service.CpfValidationService;
+import com.lamego.brValidator.annotation.ValidCpf;
+import com.lamego.brValidator.service.CpfValidationService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;

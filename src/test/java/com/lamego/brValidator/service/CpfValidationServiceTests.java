@@ -1,6 +1,6 @@
-package com.lamego.cpfvalidator.service;
+package com.lamego.brValidator.service;
 
-import com.lamego.cpfvalidator.annotation.ValidCpf;
+import com.lamego.brValidator.service.CpfValidationService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

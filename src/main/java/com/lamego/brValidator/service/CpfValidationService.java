@@ -1,6 +1,6 @@
-package com.lamego.cpfvalidator.service;
+package com.lamego.brValidator.service;
 
-import com.lamego.cpfvalidator.exception.InvalidCpfException;
+import com.lamego.brValidator.exception.InvalidCpfException;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;

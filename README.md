@@ -1,4 +1,4 @@
-# cpf-validator
+# br-validator
 
 Starter Spring Boot para validação de CPF com annotation customizada usando Bean Validation (`jakarta.validation`).
 
@@ -25,7 +25,7 @@ Esta biblioteca permite validar CPFs de forma simples em qualquer projeto Spring
 ## Estrutura do projeto
 
 ```text
-cpf-validator
+br-validator
 |-- annotation
 |   `-- ValidCpf.java
 |-- config
@@ -119,7 +119,7 @@ Adicione no `pom.xml` do seu projeto:
 <dependencies>
     <dependency>
         <groupId>com.lamego</groupId>
-        <artifactId>cpf-validator</artifactId>
+        <artifactId>br-validator</artifactId>
         <version>1.0.0</version>
     </dependency>
 </dependencies>
@@ -132,14 +132,14 @@ Adicione no `pom.xml` do seu projeto:
 ```java
 package com.example.demo.dto;
 
-import com.lamego.cpfvalidator.annotation.ValidCpf;
+import com.lamego.brValidator.annotation.ValidCpf;
 
 public class ClienteRequest {
 
     @ValidCpf(
-        message = "CPF inválido",
-        formatted = true,
-        required = true
+            message = "CPF inválido",
+            formatted = true,
+            required = true
     )
     private String cpf;
 

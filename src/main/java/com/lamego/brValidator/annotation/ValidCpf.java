@@ -1,6 +1,6 @@
-package com.lamego.cpfvalidator.annotation;
+package com.lamego.brValidator.annotation;
 
-import com.lamego.cpfvalidator.validator.CpfValidator;
+import com.lamego.brValidator.validator.CpfValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

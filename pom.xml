@@ -11,12 +11,12 @@
     </parent>
 
     <groupId>com.lamego</groupId>
-    <artifactId>cpf-validator</artifactId>
+    <artifactId>br-validator</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>cpf-validator</name>
+    <name>br-validator</name>
     <description>Starter para validação de CPF</description>
-    <url>https://github.com/andrelamego/cpf-validator</url>
+    <url>https://github.com/andrelamego/br-validator</url>
 
     <licenses>
         <license>
@@ -33,16 +33,16 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/andrelamego/cpf-validator.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/andrelamego/cpf-validator.git</developerConnection>
-        <url>https://github.com/andrelamego/cpf-validator</url>
+        <connection>scm:git:https://github.com/andrelamego/br-validator.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/andrelamego/br-validator.git</developerConnection>
+        <url>https://github.com/andrelamego/br-validator</url>
     </scm>
 
     <distributionManagement>
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/andrelamego/cpf-validator</url>
+            <url>https://maven.pkg.github.com/andrelamego/br-validator</url>
         </repository>
     </distributionManagement>
 

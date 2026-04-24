@@ -1,10 +1,10 @@
-package com.lamego.cpfvalidator;
+package com.lamego.brValidator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CpfValidatorApplicationTests {
+class brValidatorApplicationTests {
 
     @Test
     void contextLoads() {
