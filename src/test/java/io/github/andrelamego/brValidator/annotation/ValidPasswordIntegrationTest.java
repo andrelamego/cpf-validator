@@ -1,6 +1,7 @@
 package io.github.andrelamego.brValidator.annotation;
 
-import io.github.andrelamego.brValidator.config.PasswordValidatorAutoConfiguration;
+import io.github.andrelamego.brValidator.password.PasswordValidatorAutoConfiguration;
+import io.github.andrelamego.brValidator.password.ValidPassword;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

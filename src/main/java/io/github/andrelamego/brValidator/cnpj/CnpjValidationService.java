@@ -1,6 +1,5 @@
-package io.github.andrelamego.brValidator.service;
+package io.github.andrelamego.brValidator.cnpj;
 
-import io.github.andrelamego.brValidator.exception.InvalidCnpjException;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;

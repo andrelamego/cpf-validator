@@ -1,4 +1,4 @@
-io.github.andrelamego.brValidator.config.CpfValidatorAutoConfiguration
-io.github.andrelamego.brValidator.config.CnpjValidatorAutoConfiguration
-io.github.andrelamego.brValidator.config.PasswordValidatorAutoConfiguration
-io.github.andrelamego.brValidator.config.EmailValidatorAutoConfiguration
+io.github.andrelamego.brValidator.cpf.CpfValidatorAutoConfiguration
+io.github.andrelamego.brValidator.cnpj.CnpjValidatorAutoConfiguration
+io.github.andrelamego.brValidator.password.PasswordValidatorAutoConfiguration
+io.github.andrelamego.brValidator.email.EmailValidatorAutoConfiguration

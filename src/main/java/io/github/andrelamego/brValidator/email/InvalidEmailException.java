@@ -1,4 +1,4 @@
-package io.github.andrelamego.brValidator.exception;
+package io.github.andrelamego.brValidator.email;
 
 public class InvalidEmailException extends RuntimeException {
     public InvalidEmailException(String message) {

@@ -1,6 +1,5 @@
-package io.github.andrelamego.brValidator.config;
+package io.github.andrelamego.brValidator.cpf;
 
-import io.github.andrelamego.brValidator.service.CpfValidationService;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

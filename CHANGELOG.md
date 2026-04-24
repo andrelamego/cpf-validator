@@ -1,5 +1,34 @@
 # Release Notes
 
+## v1.3.1 - Reorganização de Pacotes
+
+### Release Notes
+
+Release **v1.3.1** do `br-validator`, com refatoração interna da estrutura de pacotes para melhorar a organização e manutenção do projeto, mantendo compatibilidade com as versões anteriores.
+
+Nesta versão, o foco é reorganizar o código de validação por domínio (CPF, CNPJ, Email e Senha), sem alterações de comportamento.
+
+## Incluído nesta versão
+
+- Reorganização das classes de validação em pacotes dedicados:
+  - `cpf`;
+  - `cnpj`;
+  - `email`;
+  - `password`.
+- Atualização de imports em todo o código para refletir a nova estrutura.
+- Atualização dos exemplos do `README` para corresponder aos novos pacotes.
+- Nenhuma mudança funcional: apenas melhoria estrutural para manutenção.
+
+```xml
+<dependency>
+  <groupId>io.github.andrelamego</groupId>
+  <artifactId>br-validator</artifactId>
+  <version>1.3.1</version>
+</dependency>
+```
+
+---
+
 ## v1.3.0 - Validação de Senha
 
 ### Release Notes

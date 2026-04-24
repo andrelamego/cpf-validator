@@ -1,5 +1,6 @@
 package io.github.andrelamego.brValidator.service;
 
+import io.github.andrelamego.brValidator.password.PasswordValidationService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -1,6 +1,6 @@
 package io.github.andrelamego.brValidator.service;
 
-import io.github.andrelamego.brValidator.service.CpfValidationService;
+import io.github.andrelamego.brValidator.cpf.CpfValidationService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
