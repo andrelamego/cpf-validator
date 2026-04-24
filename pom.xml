@@ -12,10 +12,10 @@
 
     <groupId>io.github.andrelamego</groupId>
     <artifactId>br-validator</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <packaging>jar</packaging>
     <name>br-validator</name>
-    <description>Starter Spring Boot para validação de documentos brasileiros com Bean Validation, com suporte a CPF e CNPJ.</description>
+    <description>Starter Spring Boot para validação de documentos brasileiros, e-mail e senha com Bean Validation, com suporte a CPF, CNPJ, Email e Password.</description>
     <url>https://github.com/andrelamego/br-validator</url>
 
     <licenses>

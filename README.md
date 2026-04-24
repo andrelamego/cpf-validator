@@ -1,8 +1,8 @@
 # br-validator
 
-Starter Spring Boot para validação de documentos brasileiros e e-mail com Bean Validation (`jakarta.validation`).
+Starter Spring Boot para validação de documentos brasileiros, e-mail e senha com Bean Validation (`jakarta.validation`).
 
-Com `br-validator`, você valida CPF, CNPJ e e-mail de forma declarativa em DTOs, sem repetir regra de negócio em cada projeto.
+Com `br-validator`, você valida CPF, CNPJ, e-mail e senha de forma declarativa em DTOs, sem repetir regra de negócio em cada projeto.
 
 ## Sumário
 
@@ -26,8 +26,9 @@ Com `br-validator`, você valida CPF, CNPJ e e-mail de forma declarativa em DTOs
 - Annotation `@ValidCpf` para validação declarativa.
 - Annotation `@ValidCnpj` para validação declarativa.
 - Annotation `@ValidEmail` para validação declarativa.
+- Annotation `@ValidPassword` para validação declarativa.
 - Validação automática com Bean Validation.
-- Serviços reutilizáveis para CPF, CNPJ e e-mail.
+- Serviços reutilizáveis para CPF, CNPJ, e-mail e senha.
 - Formatação de CPF e CNPJ.
 - Geração de CPF e CNPJ válidos para testes.
 - Auto-configuração Spring Boot para uso como dependência.
@@ -41,7 +42,7 @@ Adicione no `pom.xml` do seu projeto:
     <dependency>
         <groupId>io.github.andrelamego</groupId>
         <artifactId>br-validator</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
     </dependency>
 </dependencies>
 ```
@@ -56,6 +57,7 @@ package com.example.demo.dto;
 import io.github.andrelamego.brValidator.annotation.ValidCpf;
 import io.github.andrelamego.brValidator.annotation.ValidCnpj;
 import io.github.andrelamego.brValidator.annotation.ValidEmail;
+import io.github.andrelamego.brValidator.annotation.ValidPassword;
 
 public class DocumentoRequest {
 
@@ -74,6 +76,18 @@ public class DocumentoRequest {
             blockedDomains = {"bloqueado.com"}
     )
     private String email;
+
+    @ValidPassword(
+            message = "Senha inválida",
+            minLength = 8,
+            maxLength = 32,
+            requireUppercase = true,
+            requireLowercase = true,
+            requireNumber = true,
+            requireSpecialChar = true,
+            blockWhitespace = true
+    )
+    private String senha;
 
     public String getCpf() {
         return cpf;
@@ -97,6 +111,14 @@ public class DocumentoRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
 ```
@@ -126,12 +148,29 @@ public class DocumentoRequest {
 | `groups` | `Class<?>[]` | - | Bean Validation |
 | `payload` | `Payload[]` | - | Bean Validation |
 
+#### `@ValidPassword`
+
+| Parâmetro | Tipo | Default | Descrição |
+|---|---|---|---|
+| `message` | `String` | `Senha inválida.` | Mensagem de erro |
+| `required` | `boolean` | `true` | Define se o campo é obrigatório |
+| `minLength` | `int` | `8` | Tamanho mínimo da senha |
+| `maxLength` | `int` | `64` | Tamanho máximo da senha |
+| `requireUppercase` | `boolean` | `true` | Exige pelo menos uma letra maiúscula |
+| `requireLowercase` | `boolean` | `true` | Exige pelo menos uma letra minúscula |
+| `requireNumber` | `boolean` | `true` | Exige pelo menos um número |
+| `requireSpecialChar` | `boolean` | `true` | Exige pelo menos um caractere especial |
+| `blockWhitespace` | `boolean` | `true` | Bloqueia espaços em branco na senha |
+| `groups` | `Class<?>[]` | - | Bean Validation |
+| `payload` | `Payload[]` | - | Bean Validation |
+
 ### 3) Uso direto via service
 
 ```java
 import io.github.andrelamego.brValidator.service.CpfValidationService;
 import io.github.andrelamego.brValidator.service.CnpjValidationService;
 import io.github.andrelamego.brValidator.service.EmailValidationService;
+import io.github.andrelamego.brValidator.service.PasswordValidationService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -140,21 +179,25 @@ public class DocumentoService {
     private final CpfValidationService cpfValidationService;
     private final CnpjValidationService cnpjValidationService;
     private final EmailValidationService emailValidationService;
+    private final PasswordValidationService passwordValidationService;
 
     public DocumentoService(
             CpfValidationService cpfValidationService,
             CnpjValidationService cnpjValidationService,
-            EmailValidationService emailValidationService
+            EmailValidationService emailValidationService,
+            PasswordValidationService passwordValidationService
     ) {
         this.cpfValidationService = cpfValidationService;
         this.cnpjValidationService = cnpjValidationService;
         this.emailValidationService = emailValidationService;
+        this.passwordValidationService = passwordValidationService;
     }
 
     public void validar() {
         boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
         boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
         boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
+        boolean senhaValida = passwordValidationService.isValid("Senha@123");
 
         boolean emailRestritoValido = emailValidationService.isValid(
                 "usuario+tag@empresa.com",
@@ -162,6 +205,17 @@ public class DocumentoService {
                 false,
                 new String[]{"empresa.com"},
                 new String[]{"bloqueado.com"}
+        );
+
+        boolean senhaRestritaValida = passwordValidationService.isValid(
+                "Senha@123",
+                8,
+                32,
+                true,
+                true,
+                true,
+                true,
+                true
         );
 
         String cpfFormatado = cpfValidationService.formatar("52998224725");
@@ -202,7 +256,8 @@ public class DocumentoController {
 {
   "cpf": "529.982.247-25",
   "cnpj": "04.252.011/0001-10",
-  "email": "usuario@empresa.com"
+  "email": "usuario@empresa.com",
+  "senha": "Senha@123"
 }
 ```
 
@@ -218,7 +273,7 @@ public class DocumentoController {
 
 ## Tratamento de erro
 
-As annotations (`@ValidCpf`, `@ValidCnpj` e `@ValidEmail`) retornam erro de validação via Bean Validation.
+As annotations (`@ValidCpf`, `@ValidCnpj`, `@ValidEmail` e `@ValidPassword`) retornam erro de validação via Bean Validation.
 Já os métodos `formatar(...)` de CPF/CNPJ lançam exceção quando o documento é inválido.
 
 ```java
@@ -287,6 +342,14 @@ Não. O service retorna `false`.
 #### E-mail nulo ou vazio é válido no service?
 
 Não. O service retorna `false`.
+
+#### Senha nula ou vazia é válida no service?
+
+Não. O service retorna `false`.
+
+#### Quais regras de senha são aplicadas por padrão?
+
+Mínimo de 8 caracteres, máximo de 64, com maiúscula, minúscula, número, caractere especial e sem espaços.
 
 #### Quando ocorre exceção?
 
