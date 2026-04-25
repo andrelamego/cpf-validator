@@ -119,62 +119,6 @@ public class DocumentoRequest {
           allowToday = true
   )
   private LocalDate dataNascimento;
-
-  public String getCpf() {
-    return cpf;
-  }
-
-  public void setCpf(String cpf) {
-    this.cpf = cpf;
-  }
-
-  public String getCnpj() {
-    return cnpj;
-  }
-
-  public void setCnpj(String cnpj) {
-    this.cnpj = cnpj;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getSenha() {
-    return senha;
-  }
-
-  public void setSenha(String senha) {
-    this.senha = senha;
-  }
-
-  public String getCep() {
-    return cep;
-  }
-
-  public void setCep(String cep) {
-    this.cep = cep;
-  }
-
-  public String getTelefone() {
-    return telefone;
-  }
-
-  public void setTelefone(String telefone) {
-    this.telefone = telefone;
-  }
-
-  public LocalDate getDataNascimento() {
-    return dataNascimento;
-  }
-
-  public void setDataNascimento(LocalDate dataNascimento) {
-    this.dataNascimento = dataNascimento;
-  }
 }
 ```
 
@@ -268,89 +212,65 @@ import io.github.andrelamego.brValidator.cnpj.CnpjValidationService;
 import io.github.andrelamego.brValidator.email.EmailValidationService;
 import io.github.andrelamego.brValidator.password.PasswordValidationService;
 import io.github.andrelamego.brValidator.phone.PhoneValidationService;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-@Service
-public class DocumentoService {
+// Exemplo considerando os services já injetados no seu bean.
 
-  private final BirthDateValidationService birthDateValidationService;
-  private final CepValidationService cepValidationService;
-  private final CpfValidationService cpfValidationService;
-  private final CnpjValidationService cnpjValidationService;
-  private final EmailValidationService emailValidationService;
-  private final PasswordValidationService passwordValidationService;
-  private final PhoneValidationService phoneValidationService;
+// 1) Validação padrão
+boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
+boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
+boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
+boolean senhaValida = passwordValidationService.isValid("Senha@123");
+boolean cepValido = cepValidationService.isValid("01310-100", true, true);
 
-  public DocumentoService(
-          BirthDateValidationService birthDateValidationService,
-          CepValidationService cepValidationService,
-          CpfValidationService cpfValidationService,
-          CnpjValidationService cnpjValidationService,
-          EmailValidationService emailValidationService,
-          PasswordValidationService passwordValidationService,
-          PhoneValidationService phoneValidationService
-  ) {
-    this.birthDateValidationService = birthDateValidationService;
-    this.cepValidationService = cepValidationService;
-    this.cpfValidationService = cpfValidationService;
-    this.cnpjValidationService = cnpjValidationService;
-    this.emailValidationService = emailValidationService;
-    this.passwordValidationService = passwordValidationService;
-    this.phoneValidationService = phoneValidationService;
-  }
+// 2) Validação com regras específicas
+boolean dataNascimentoValida = birthDateValidationService.isValid(
+        LocalDate.of(2000, 1, 1),
+        18,   // minAge
+        120,  // maxAge
+        false, // allowFutureDate
+        true   // allowToday
+);
 
-  public void validar() {
-    boolean dataNascimentoValida = birthDateValidationService.isValid(
-            LocalDate.of(2000, 1, 1),
-            18,
-            120,
-            false,
-            true
-    );
-    boolean cepValido = cepValidationService.isValid("01310-100", true, true);
-    boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
-    boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
-    boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
-    boolean senhaValida = passwordValidationService.isValid("Senha@123");
-    boolean telefoneValido = phoneValidationService.isValid(
-            "+55 (11) 98765-4321",
-            true,
-            false,
-            true,
-            true,
-            new String[]{"11"},
-            new String[]{"31"}
-    );
+String[] dddsPermitidos = {"11"};
+String[] dddsBloqueados = {"31"};
+boolean telefoneValido = phoneValidationService.isValid(
+        "+55 (11) 98765-4321",
+        true,   // formatted
+        false,  // allowLandline
+        true,   // allowCountryCode
+        true,   // rejectRepeatedDigits
+        dddsPermitidos,
+        dddsBloqueados
+);
 
-    boolean emailRestritoValido = emailValidationService.isValid(
-            "usuario+tag@empresa.com",
-            true,
-            false,
-            new String[]{"empresa.com"},
-            new String[]{"bloqueado.com"}
-    );
+boolean emailRestritoValido = emailValidationService.isValid(
+        "usuario+tag@empresa.com",
+        true,
+        false,
+        new String[]{"empresa.com"},
+        new String[]{"bloqueado.com"}
+);
 
-    boolean senhaRestritaValida = passwordValidationService.isValid(
-            "Senha@123",
-            8,
-            32,
-            true,
-            true,
-            true,
-            true,
-            true
-    );
+boolean senhaRestritaValida = passwordValidationService.isValid(
+        "Senha@123",
+        8,    // minLength
+        32,   // maxLength
+        true, // requireUppercase
+        true, // requireLowercase
+        true, // requireNumber
+        true, // requireSpecialChar
+        true  // blockWhitespace
+);
 
-    String cepFormatado = cepValidationService.formatar("01310100");
-    String cpfFormatado = cpfValidationService.formatar("52998224725");
-    String cnpjFormatado = cnpjValidationService.formatar("04252011000110");
+// 3) Formatação e geração
+String cepFormatado = cepValidationService.formatar("01310100");
+String cpfFormatado = cpfValidationService.formatar("52998224725");
+String cnpjFormatado = cnpjValidationService.formatar("04252011000110");
 
-    String cpfGerado = cpfValidationService.gerarCpfValido();
-    String cnpjGerado = cnpjValidationService.gerarCnpjValido();
-  }
-}
+String cpfGerado = cpfValidationService.gerarCpfValido();
+String cnpjGerado = cnpjValidationService.gerarCnpjValido();
 ```
 
 ### 4) Exemplo com controller
