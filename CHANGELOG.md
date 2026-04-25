@@ -1,5 +1,33 @@
 # Release Notes
 
+## v1.4.0 - CEP, Telefone e Data de Nascimento
+
+### Release Notes
+
+Release **v1.4.0** do `br-validator`, com expansao do escopo de validacoes para alem de CPF, CNPJ, Email e Senha, mantendo compatibilidade com as versoes anteriores.
+
+## Incluido nesta versao
+
+- Nova annotation `@ValidCep` com parametros `required`, `formatted` e `rejectRepeatedDigits`.
+- Nova annotation `@ValidPhone` com parametros `required`, `formatted`, `allowLandline`, `allowCountryCode`, `rejectRepeatedDigits`, `allowedAreaCodes` e `blockedAreaCodes`.
+- Nova annotation `@ValidBirthDate` com parametros `required`, `minAge`, `maxAge`, `allowFutureDate` e `allowToday`.
+- Novos componentes para os novos dominios:
+  - `CepValidationService`, `CepValidator`, `InvalidCepException`, `CepValidatorAutoConfiguration`;
+  - `PhoneValidationService`, `PhoneValidator`, `InvalidPhoneException`, `PhoneValidatorAutoConfiguration`;
+  - `BirthDateValidationService`, `BirthDateValidator`, `InvalidBirthDateException`, `BirthDateValidatorAutoConfiguration`.
+- Testes unitarios e de integracao adicionados para CEP, telefone e data de nascimento.
+- Cobertura de integracao do CPF ampliada para os cenarios `formatted = false` e `required = false`.
+
+```xml
+<dependency>
+  <groupId>io.github.andrelamego</groupId>
+  <artifactId>br-validator</artifactId>
+  <version>1.4.0</version>
+</dependency>
+```
+
+---
+
 ## v1.3.1 - Reorganização de Pacotes
 
 ### Release Notes

@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.annotation;
+package io.github.andrelamego.brValidator.email;
 
-import io.github.andrelamego.brValidator.email.EmailValidatorAutoConfiguration;
-import io.github.andrelamego.brValidator.email.ValidEmail;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

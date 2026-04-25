@@ -1,8 +1,8 @@
 # br-validator
 
-Starter Spring Boot para validação de documentos brasileiros, e-mail e senha com Bean Validation (`jakarta.validation`).
+Starter Spring Boot para validação de documentos brasileiros, e-mail, senha, CEP, telefone e data de nascimento com Bean Validation (`jakarta.validation`).
 
-Com `br-validator`, você valida CPF, CNPJ, e-mail e senha de forma declarativa em DTOs, sem repetir regra de negócio em cada projeto.
+Com `br-validator`, você valida CPF, CNPJ, e-mail, senha, CEP, telefone e data de nascimento de forma declarativa em DTOs, sem repetir regra de negócio em cada projeto.
 
 ## Sumário
 
@@ -27,9 +27,12 @@ Com `br-validator`, você valida CPF, CNPJ, e-mail e senha de forma declarativa 
 - Annotation `@ValidCnpj` para validação declarativa.
 - Annotation `@ValidEmail` para validação declarativa.
 - Annotation `@ValidPassword` para validação declarativa.
+- Annotation `@ValidCep` para validação declarativa.
+- Annotation `@ValidPhone` para validação declarativa.
+- Annotation `@ValidBirthDate` para validação declarativa.
 - Validação automática com Bean Validation.
-- Serviços reutilizáveis para CPF, CNPJ, e-mail e senha.
-- Formatação de CPF e CNPJ.
+- Serviços reutilizáveis para CPF, CNPJ, e-mail, senha, CEP, telefone e data de nascimento.
+- Formatação de CPF, CNPJ e CEP.
 - Geração de CPF e CNPJ válidos para testes.
 - Auto-configuração Spring Boot para uso como dependência.
 
@@ -42,7 +45,7 @@ Adicione no `pom.xml` do seu projeto:
     <dependency>
         <groupId>io.github.andrelamego</groupId>
         <artifactId>br-validator</artifactId>
-        <version>1.3.1</version>
+        <version>1.4.0</version>
     </dependency>
 </dependencies>
 ```
@@ -56,8 +59,13 @@ package com.example.demo.dto;
 
 import io.github.andrelamego.brValidator.cpf.ValidCpf;
 import io.github.andrelamego.brValidator.cnpj.ValidCnpj;
+import io.github.andrelamego.brValidator.birthdate.ValidBirthDate;
+import io.github.andrelamego.brValidator.cep.ValidCep;
 import io.github.andrelamego.brValidator.email.ValidEmail;
 import io.github.andrelamego.brValidator.password.ValidPassword;
+import io.github.andrelamego.brValidator.phone.ValidPhone;
+
+import java.time.LocalDate;
 
 public class DocumentoRequest {
 
@@ -89,37 +97,28 @@ public class DocumentoRequest {
   )
   private String senha;
 
-  public String getCpf() {
-    return cpf;
-  }
+  @ValidCep(formatted = true, required = true, rejectRepeatedDigits = true)
+  private String cep;
 
-  public void setCpf(String cpf) {
-    this.cpf = cpf;
-  }
+  @ValidPhone(
+          formatted = true,
+          required = true,
+          allowLandline = false,
+          allowCountryCode = true,
+          rejectRepeatedDigits = true,
+          allowedAreaCodes = {"11", "21"},
+          blockedAreaCodes = {"31"}
+  )
+  private String telefone;
 
-  public String getCnpj() {
-    return cnpj;
-  }
-
-  public void setCnpj(String cnpj) {
-    this.cnpj = cnpj;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getSenha() {
-    return senha;
-  }
-
-  public void setSenha(String senha) {
-    this.senha = senha;
-  }
+  @ValidBirthDate(
+          required = true,
+          minAge = 18,
+          maxAge = 120,
+          allowFutureDate = false,
+          allowToday = true
+  )
+  private LocalDate dataNascimento;
 }
 ```
 
@@ -164,67 +163,114 @@ public class DocumentoRequest {
 | `groups` | `Class<?>[]` | - | Bean Validation |
 | `payload` | `Payload[]` | - | Bean Validation |
 
+#### `@ValidCep`
+
+| Parâmetro | Tipo | Default | Descrição |
+|---|---|---|---|
+| `message` | `String` | `CEP inválido.` | Mensagem de erro |
+| `required` | `boolean` | `true` | Define se o campo é obrigatório |
+| `formatted` | `boolean` | `true` | Aceita CEP com máscara |
+| `rejectRepeatedDigits` | `boolean` | `true` | Rejeita CEP com todos os dígitos iguais |
+| `groups` | `Class<?>[]` | - | Bean Validation |
+| `payload` | `Payload[]` | - | Bean Validation |
+
+#### `@ValidPhone`
+
+| Parâmetro | Tipo | Default | Descrição |
+|---|---|---|---|
+| `message` | `String` | `Telefone inválido.` | Mensagem de erro |
+| `required` | `boolean` | `true` | Define se o campo é obrigatório |
+| `formatted` | `boolean` | `true` | Aceita telefone com máscara |
+| `allowLandline` | `boolean` | `false` | Permite telefone fixo |
+| `allowCountryCode` | `boolean` | `true` | Permite prefixo de país (`+55`) |
+| `rejectRepeatedDigits` | `boolean` | `true` | Rejeita sequências repetidas |
+| `allowedAreaCodes` | `String[]` | `{}` | DDDs permitidos |
+| `blockedAreaCodes` | `String[]` | `{}` | DDDs bloqueados |
+| `groups` | `Class<?>[]` | - | Bean Validation |
+| `payload` | `Payload[]` | - | Bean Validation |
+
+#### `@ValidBirthDate`
+
+| Parâmetro | Tipo | Default | Descrição |
+|---|---|---|---|
+| `message` | `String` | `Data de Nascimento inválida.` | Mensagem de erro |
+| `required` | `boolean` | `true` | Define se o campo é obrigatório |
+| `minAge` | `int` | `0` | Idade mínima permitida |
+| `maxAge` | `int` | `120` | Idade máxima permitida |
+| `allowFutureDate` | `boolean` | `false` | Permite datas futuras |
+| `allowToday` | `boolean` | `true` | Permite data igual a hoje |
+| `groups` | `Class<?>[]` | - | Bean Validation |
+| `payload` | `Payload[]` | - | Bean Validation |
+
 ### 3) Uso direto via service
 
 ```java
+import io.github.andrelamego.brValidator.birthdate.BirthDateValidationService;
+import io.github.andrelamego.brValidator.cep.CepValidationService;
 import io.github.andrelamego.brValidator.cpf.CpfValidationService;
 import io.github.andrelamego.brValidator.cnpj.CnpjValidationService;
 import io.github.andrelamego.brValidator.email.EmailValidationService;
 import io.github.andrelamego.brValidator.password.PasswordValidationService;
-import org.springframework.stereotype.Service;
+import io.github.andrelamego.brValidator.phone.PhoneValidationService;
 
-@Service
-public class DocumentoService {
+import java.time.LocalDate;
 
-  private final CpfValidationService cpfValidationService;
-  private final CnpjValidationService cnpjValidationService;
-  private final EmailValidationService emailValidationService;
-  private final PasswordValidationService passwordValidationService;
+// Exemplo considerando os services já injetados no seu bean.
 
-  public DocumentoService(
-          CpfValidationService cpfValidationService,
-          CnpjValidationService cnpjValidationService,
-          EmailValidationService emailValidationService,
-          PasswordValidationService passwordValidationService
-  ) {
-    this.cpfValidationService = cpfValidationService;
-    this.cnpjValidationService = cnpjValidationService;
-    this.emailValidationService = emailValidationService;
-    this.passwordValidationService = passwordValidationService;
-  }
+// 1) Validação padrão
+boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
+boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
+boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
+boolean senhaValida = passwordValidationService.isValid("Senha@123");
+boolean cepValido = cepValidationService.isValid("01310-100", true, true);
 
-  public void validar() {
-    boolean cpfValido = cpfValidationService.isValid("529.982.247-25");
-    boolean cnpjValido = cnpjValidationService.isValid("04.252.011/0001-10");
-    boolean emailValido = emailValidationService.isValid("usuario@empresa.com");
-    boolean senhaValida = passwordValidationService.isValid("Senha@123");
+// 2) Validação com regras específicas
+boolean dataNascimentoValida = birthDateValidationService.isValid(
+        LocalDate.of(2000, 1, 1),
+        18,   // minAge
+        120,  // maxAge
+        false, // allowFutureDate
+        true   // allowToday
+);
 
-    boolean emailRestritoValido = emailValidationService.isValid(
-            "usuario+tag@empresa.com",
-            true,
-            false,
-            new String[]{"empresa.com"},
-            new String[]{"bloqueado.com"}
-    );
+String[] dddsPermitidos = {"11"};
+String[] dddsBloqueados = {"31"};
+boolean telefoneValido = phoneValidationService.isValid(
+        "+55 (11) 98765-4321",
+        true,   // formatted
+        false,  // allowLandline
+        true,   // allowCountryCode
+        true,   // rejectRepeatedDigits
+        dddsPermitidos,
+        dddsBloqueados
+);
 
-    boolean senhaRestritaValida = passwordValidationService.isValid(
-            "Senha@123",
-            8,
-            32,
-            true,
-            true,
-            true,
-            true,
-            true
-    );
+boolean emailRestritoValido = emailValidationService.isValid(
+        "usuario+tag@empresa.com",
+        true,
+        false,
+        new String[]{"empresa.com"},
+        new String[]{"bloqueado.com"}
+);
 
-    String cpfFormatado = cpfValidationService.formatar("52998224725");
-    String cnpjFormatado = cnpjValidationService.formatar("04252011000110");
+boolean senhaRestritaValida = passwordValidationService.isValid(
+        "Senha@123",
+        8,    // minLength
+        32,   // maxLength
+        true, // requireUppercase
+        true, // requireLowercase
+        true, // requireNumber
+        true, // requireSpecialChar
+        true  // blockWhitespace
+);
 
-    String cpfGerado = cpfValidationService.gerarCpfValido();
-    String cnpjGerado = cnpjValidationService.gerarCnpjValido();
-  }
-}
+// 3) Formatação e geração
+String cepFormatado = cepValidationService.formatar("01310100");
+String cpfFormatado = cpfValidationService.formatar("52998224725");
+String cnpjFormatado = cnpjValidationService.formatar("04252011000110");
+
+String cpfGerado = cpfValidationService.gerarCpfValido();
+String cnpjGerado = cnpjValidationService.gerarCnpjValido();
 ```
 
 ### 4) Exemplo com controller
@@ -257,7 +303,10 @@ public class DocumentoController {
   "cpf": "529.982.247-25",
   "cnpj": "04.252.011/0001-10",
   "email": "usuario@empresa.com",
-  "senha": "Senha@123"
+  "senha": "Senha@123",
+  "cep": "01310-100",
+  "telefone": "+55 (11) 98765-4321",
+  "dataNascimento": "2000-01-01"
 }
 ```
 
@@ -273,14 +322,15 @@ public class DocumentoController {
 
 ## Tratamento de erro
 
-As annotations (`@ValidCpf`, `@ValidCnpj`, `@ValidEmail` e `@ValidPassword`) retornam erro de validação via Bean Validation.
-Já os métodos `formatar(...)` de CPF/CNPJ lançam exceção quando o documento é inválido.
+As annotations (`@ValidCpf`, `@ValidCnpj`, `@ValidEmail`, `@ValidPassword`, `@ValidCep`, `@ValidPhone` e `@ValidBirthDate`) retornam erro de validação via Bean Validation.
+Já os métodos `formatar(...)` de CPF/CNPJ/CEP lançam exceção quando o documento é inválido.
 
 ```java
 package com.example.demo.api;
 
 import io.github.andrelamego.brValidator.cnpj.InvalidCnpjException;
 import io.github.andrelamego.brValidator.cpf.InvalidCpfException;
+import io.github.andrelamego.brValidator.cep.InvalidCepException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -292,7 +342,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-  @ExceptionHandler({InvalidCpfException.class, InvalidCnpjException.class})
+  @ExceptionHandler({InvalidCpfException.class, InvalidCnpjException.class, InvalidCepException.class})
   public ResponseEntity<Map<String, String>> handleDocumentoInvalido(RuntimeException ex) {
     return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
   }
@@ -335,6 +385,22 @@ Sim. Use `disposableAllowed = false`.
 
 Sim. Use `allowedDomains` e `blockedDomains`.
 
+#### CEP com máscara é aceito?
+
+Sim. Por padrão, `formatted = true` em `@ValidCep`.
+
+#### Telefone fixo é aceito?
+
+Depende da configuração. Em `@ValidPhone`, o padrão é `allowLandline = false`.
+
+#### Posso bloquear DDDs específicos no telefone?
+
+Sim. Use `allowedAreaCodes` e `blockedAreaCodes` em `@ValidPhone`.
+
+#### Data de nascimento futura é aceita?
+
+Não por padrão. Use `allowFutureDate = true` em `@ValidBirthDate` se precisar permitir.
+
 #### Documento nulo ou vazio é válido no service?
 
 Não. O service retorna `false`.
@@ -353,7 +419,7 @@ Mínimo de 8 caracteres, máximo de 64, com maiúscula, minúscula, número, car
 
 #### Quando ocorre exceção?
 
-Em `formatar(...)`, quando CPF/CNPJ é inválido.
+Em `formatar(...)`, quando CPF/CNPJ/CEP é inválido.
 
 ## Tecnologias
 
@@ -367,9 +433,9 @@ Em `formatar(...)`, quando CPF/CNPJ é inválido.
 
 Melhorias previstas:
 
-- Validação de CEP
-- Validação de telefone
-- Publicação no Maven Central
+- Evoluir regras avançadas de validação para CEP e telefone
+- Adicionar internacionalização das mensagens de validação (i18n)
+- Expandir documentação com exemplos por domínio
 - Testes automatizados mais robustos
 - Suporte a múltiplos formatos de documento
 
