@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.annotation;
+package io.github.andrelamego.brValidator.birthdate;
 
-import io.github.andrelamego.brValidator.birthdate.BirthDateValidatorAutoConfiguration;
-import io.github.andrelamego.brValidator.birthdate.ValidBirthDate;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

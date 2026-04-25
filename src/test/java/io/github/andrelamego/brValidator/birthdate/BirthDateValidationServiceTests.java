@@ -1,6 +1,5 @@
-package io.github.andrelamego.brValidator.service;
+package io.github.andrelamego.brValidator.birthdate;
 
-import io.github.andrelamego.brValidator.birthdate.BirthDateValidationService;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

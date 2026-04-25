@@ -1,6 +1,5 @@
-package io.github.andrelamego.brValidator.service;
+package io.github.andrelamego.brValidator.phone;
 
-import io.github.andrelamego.brValidator.phone.PhoneValidationService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

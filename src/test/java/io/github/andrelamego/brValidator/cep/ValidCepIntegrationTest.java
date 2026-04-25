@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.annotation;
+package io.github.andrelamego.brValidator.cep;
 
-import io.github.andrelamego.brValidator.cep.CepValidatorAutoConfiguration;
-import io.github.andrelamego.brValidator.cep.ValidCep;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;

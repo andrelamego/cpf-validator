@@ -1,7 +1,5 @@
-package io.github.andrelamego.brValidator.service;
+package io.github.andrelamego.brValidator.cep;
 
-import io.github.andrelamego.brValidator.cep.CepValidationService;
-import io.github.andrelamego.brValidator.cep.InvalidCepException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

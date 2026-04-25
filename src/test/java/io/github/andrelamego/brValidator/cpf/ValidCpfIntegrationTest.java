@@ -1,21 +1,18 @@
-package io.github.andrelamego.brValidator.annotation;
+package io.github.andrelamego.brValidator.cpf;
 
-import io.github.andrelamego.brValidator.cnpj.ValidCnpj;
-import io.github.andrelamego.brValidator.cnpj.CnpjValidatorAutoConfiguration;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.validation.autoconfigure.ValidationAutoConfiguration;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ValidCnpjIntegrationTest {
-
+public class ValidCpfIntegrationTest {
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
             .withConfiguration(AutoConfigurations.of(
                     ValidationAutoConfiguration.class,
-                    CnpjValidatorAutoConfiguration.class
+                    CpfValidatorAutoConfiguration.class
             ));
 
     @Test
@@ -23,8 +20,8 @@ public class ValidCnpjIntegrationTest {
         contextRunner.run(context -> {
             Validator validator = context.getBean(Validator.class);
 
-            EmpresaDTO dtoValido = new EmpresaDTO("04.252.011/0001-10");
-            EmpresaDTO dtoInvalido = new EmpresaDTO("11.111.111/1111-11");
+            PessoaDTO dtoValido = new PessoaDTO("529.982.247-25");
+            PessoaDTO dtoInvalido = new PessoaDTO("111.111.111-11");
 
             assertThat(validator.validate(dtoValido)).isEmpty();
             assertThat(validator.validate(dtoInvalido)).isNotEmpty();
@@ -36,8 +33,8 @@ public class ValidCnpjIntegrationTest {
         contextRunner.run(context -> {
             Validator validator = context.getBean(Validator.class);
 
-            EmpresaSemMascaraDTO dtoFormatado = new EmpresaSemMascaraDTO("04.252.011/0001-10");
-            EmpresaSemMascaraDTO dtoSemMascara = new EmpresaSemMascaraDTO("04252011000110");
+            PessoaSemMascaraDTO dtoFormatado = new PessoaSemMascaraDTO("529.982.247-25");
+            PessoaSemMascaraDTO dtoSemMascara = new PessoaSemMascaraDTO("52998224725");
 
             assertThat(validator.validate(dtoFormatado)).isNotEmpty();
             assertThat(validator.validate(dtoSemMascara)).isEmpty();
@@ -49,38 +46,38 @@ public class ValidCnpjIntegrationTest {
         contextRunner.run(context -> {
             Validator validator = context.getBean(Validator.class);
 
-            EmpresaOpcionalDTO dtoNulo = new EmpresaOpcionalDTO(null);
-            EmpresaOpcionalDTO dtoVazio = new EmpresaOpcionalDTO("   ");
+            PessoaOpcionalDTO dtoNulo = new PessoaOpcionalDTO(null);
+            PessoaOpcionalDTO dtoVazio = new PessoaOpcionalDTO("   ");
 
             assertThat(validator.validate(dtoNulo)).isEmpty();
             assertThat(validator.validate(dtoVazio)).isEmpty();
         });
     }
 
-    private static class EmpresaDTO {
-        @ValidCnpj(formatted = true)
-        private final String cnpj;
+    private static class PessoaDTO {
+        @ValidCpf
+        private final String cpf;
 
-        private EmpresaDTO(String cnpj) {
-            this.cnpj = cnpj;
+        private PessoaDTO(String cpf) {
+            this.cpf = cpf;
         }
     }
 
-    private static class EmpresaSemMascaraDTO {
-        @ValidCnpj(formatted = false)
-        private final String cnpj;
+    private static class PessoaSemMascaraDTO {
+        @ValidCpf(formatted = false)
+        private final String cpf;
 
-        private EmpresaSemMascaraDTO(String cnpj) {
-            this.cnpj = cnpj;
+        private PessoaSemMascaraDTO(String cpf) {
+            this.cpf = cpf;
         }
     }
 
-    private static class EmpresaOpcionalDTO {
-        @ValidCnpj(required = false)
-        private final String cnpj;
+    private static class PessoaOpcionalDTO {
+        @ValidCpf(required = false)
+        private final String cpf;
 
-        private EmpresaOpcionalDTO(String cnpj) {
-            this.cnpj = cnpj;
+        private PessoaOpcionalDTO(String cpf) {
+            this.cpf = cpf;
         }
     }
 }
