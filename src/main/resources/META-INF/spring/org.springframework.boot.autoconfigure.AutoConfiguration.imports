@@ -2,4 +2,5 @@ io.github.andrelamego.brValidator.cpf.CpfValidatorAutoConfiguration
 io.github.andrelamego.brValidator.cnpj.CnpjValidatorAutoConfiguration
 io.github.andrelamego.brValidator.password.PasswordValidatorAutoConfiguration
 io.github.andrelamego.brValidator.email.EmailValidatorAutoConfiguration
+io.github.andrelamego.brValidator.cep.CepValidatorAutoConfiguration
 io.github.andrelamego.brValidator.phone.PhoneValidatorAutoConfiguration
